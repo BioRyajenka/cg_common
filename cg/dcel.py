@@ -1,5 +1,5 @@
 import numpy as np
-from cg import Point, turn
+from cg import Point, turn, in_triangle
 from cg.utils import look_back
 from typing import List, Iterator
 from operator import methodcaller
@@ -59,6 +59,9 @@ class Face:
 
     def prv(self, point: Vertex):
         return self.step(point, Face.cw)
+
+    def contains(self, point: Vertex):
+        return in_triangle(q, self.vertices[0], self.vertices[1], self.vertices[2])
 
     def __getitem__(self, item: Vertex) -> int:
         i = 0
