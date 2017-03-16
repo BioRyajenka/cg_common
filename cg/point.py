@@ -191,7 +191,28 @@ def vol(point: Point, *hyperplane):
 
 def turn(point: Point, *hyperplane):
     return np.sign(vol(point, *hyperplane))
+	
+'''
+Возвращает True, если отрезки ab и cd пересекаются
+'''
+def intersects(a: Point, b: Point, c: Point, d: Point):
+    '''
+    Вспомогательная функция. Вовращает true, если на числовой прямой отрезки ab и cd пересекаются
+    '''
+    def bb (a, b, c, d):
+        if a > b:
+            a, b = b, a
+        if c > d:
+            c, d = d, c
+        return max(a, c) <= min(b, d)
+    
+    return bb(a.x(), b.x(), c.x(), d.x()) and \
+           bb(a.y(), b.y(), c.y(), d.y()) and \
+           turn(a, b, c) * turn(a, b, d) <= 0 and \
+           turn(c, d, a) * turn(c, d, b) <= 0
 
+def in_triangle(x: Point, a: Point, b: Point, c: Point):
+    return turn(a, b, x) >= 0 and turn(b, c, x) >= 0 and turn(c, a, x) >= 0
 
 class PointSet:
     """
